@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Миколаївський обласний краєзнавчий музей</h2>
+    <span>Ласкаво просимо відвідати наш музей. Ми відкриті: 10.00 - 18.00, вихідний день - п’ятниця</span>
+    <h3>Анонси</h3>
+    {% if tour_list %}
+        {% for tour in tour_list %}
+            <span class="fw-bold"> {{ tour.date }} </span>
+            {% if tour.admission %} <span class="small fst-italic">(за записом)</span> {% endif %}
+            <span><a href="{% url 'tour-info' pk=tour.id %}"> {{ tour.name }} </a></span>
+            <br/>
+        {% endfor %}
+    {% else %}
+        <span>На даний час немає запланованих екскурсій!</span>
+    {% endif %}
+{% endblock %}

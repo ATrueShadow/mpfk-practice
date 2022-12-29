@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load in_group %}
+
+{% block content %}
+    {% if user.is_authenticated and user|in_group:"storage_manager" %}
+        <h1>Предмет:</h1>
+        <ul>
+            <li>Назва: {{ item.name }}</li>
+            <li>Кількість: {{ item.quantity }}</li>
+        </ul>
+        <a href="{% url 'storage-update' pk=item.id %}"><button>Змінити</button></a>
+        <a href="{% url 'storage-delete' pk=item.id %}"><button>Видалити</button></a>
+        <a href="{% url 'storage' %}"><button>До сховища</button></a>
+    {% else %}
+        <h1>Доступ відхилено.</h1>
+    {% endif %}
+{% endblock %}

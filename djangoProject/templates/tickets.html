@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load in_group %}
+
+{% block content %}
+    {% if not user.is_authenticated %}
+        <h1><a href="{% url 'login' %}">Увійдіть</a>, щоби переглянути цю сторінку.</h1>
+    {% elif user|in_group:"ticketer" or user.is_staff %}
+        <a href="{% url 'ticket-new' %}"><button>Створити</button></a>
+        <h1>Усі квитки:</h1>
+        <ul>
+            {% for ticket in ticket_list %}
+                <li> ({{ ticket.visitor.username }}) <span class="fw-bold"> {{ ticket.tour.date }} </span> - <span><a href="{% url 'ticket-manage' pk=ticket.tour.id %}">{{ ticket.tour.name }}</a></span></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {% if ticket_list %}
+            <h1>Ваші квитки:</h1>
+            <ul>
+            {% for ticket in ticket_list %}
+                {% if ticket.visitor.id == user.id %}
+                    <li><span class="fw-bold"> {{ ticket.tour.date }} </span> - <span> <a href="{% url 'tour-info' pk=ticket.tour.id %}">{{ ticket.tour.name }}</a> </span></li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        {% else %}
+            <h1>У вас немає куплених квитків.</h1>
+        {% endif %}
+    {% endif %}
+{% endblock %}

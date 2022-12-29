@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load in_group %}
+
+{% block content %}
+    {% if user.is_authenticated and user|in_group:"exhibitions_manager" %}
+            <a href="{% url 'exhibition-new' %}">
+                <button>Створити</button>
+            </a>
+            <br>
+            <h1>Виставки:</h1>
+            {% if exhibition_list %}
+                <ul>
+                    {% for exhibition in exhibition_list %}
+                        <li><a href="{{ exhibition.get_absolute_url }}">{{ exhibition.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <span>Немає виставок.</span>
+        {% endif %}
+    {% else %}
+        <h1>Доступ відхилено.</h1>
+    {% endif %}
+{% endblock %}

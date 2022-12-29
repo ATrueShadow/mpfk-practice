@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load in_group %}
+
+{% block content %}
+    {% if user.is_authenticated and user|in_group:"tours_manager" %}
+    <a href="{% url 'tour-new' %}">
+        <button>Створити</button>
+    </a>
+    <br>
+    <h1>Екскурсії:</h1>
+    {% if tour_list %}
+        <ul>
+            {% for tour in tour_list %}
+            <li><a href="{{ tour.get_absolute_url }}">{{ tour.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <span>Немає екскурсій.</span>
+    {% endif %}
+    {% else %}
+        <h1>Доступ відхилено.</h1>
+    {% endif %}
+{% endblock %}

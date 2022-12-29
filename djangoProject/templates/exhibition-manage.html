@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load in_group %}
+
+{% block content %}
+    {% if user.is_authenticated and user|in_group:"exhibitions_manager" %}
+        <h1>Виставка:</h1>
+        <ul>
+            <li>Назва: {{ exhibition.name }}</li>
+            <li>Предмети зі сховища:
+                {% for item in exhibition.items.all %}
+                    <ul>{{ item }}</ul>
+                {% endfor %}
+            </li>
+        </ul>
+        <a href="{% url 'exhibition-update' pk=exhibition.id %}">
+            <button>Змінити</button>
+        </a>
+        <a href="{% url 'exhibition-delete' pk=exhibition.id %}">
+            <button>Видалити</button>
+        </a>
+        <a href="{% url 'exhibitions' %}">
+            <button>До списку виставок</button>
+        </a>
+    {% else %}
+        <h1>Доступ відхилено.</h1>
+    {% endif %}
+{% endblock %}

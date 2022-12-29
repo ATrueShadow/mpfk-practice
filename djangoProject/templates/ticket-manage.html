@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load in_group %}
+
+{% block content %}
+    {% if user.is_authenticated and user|in_group:"ticketer" %}
+        <h1>Квиток:</h1>
+        <ul>
+            <li>Відвідувач: {{ ticket.visitor.username }}</li>
+            <li>Ескурсія: <a href="{% url 'tour-info' pk=ticket.tour.id %}">{{ ticket.tour.name }}</a></li>
+        </ul>
+        <a href="{% url 'ticket-update' pk=ticket.id %}"><button>Змінити</button></a>
+        <a href="{% url 'ticket-delete' pk=ticket.id %}"><button>Видалити</button></a>
+        <a href="{% url 'tickets' %}"><button>До списку квитків</button></a>
+    {% else %}
+        <h1>Доступ відхилено.</h1>
+    {% endif %}
+{% endblock %}

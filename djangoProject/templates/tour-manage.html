@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load in_group %}
+
+{% block content %}
+    {% if user.is_authenticated and user|in_group:"tours_manager" %}
+        <h1>Екскурсія:</h1>
+        <ul>
+            <li>Ім'я: {{ tour.name }}</li>
+            <li>Дата: {{ tour.date }}</li>
+            <li>За записом: {{ tour.admission }}</li>
+            <li>Ціна: {{ tour.price }}</li>
+            <li>
+                Виставки: {% if tour.exhibitions.all %}
+                <ul>
+                    {% for exhibition in tour.exhibitions.all %}
+                        <li>{{ exhibition.name }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            </li>
+        </ul>
+        <a href="{% url 'tour-update' pk=tour.id %}"><button>Змінити</button></a>
+        <a href="{% url 'tour-delete' pk=tour.id %}"><button>Видалити</button></a>
+        <a href="{% url 'tours' %}"><button>До списку екскурсій</button></a>
+    {% else %}
+        <h1>Доступ відхилено.</h1>
+    {% endif %}
+{% endblock %}

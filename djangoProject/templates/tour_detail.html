@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load in_group %}
+
+{% block content %}
+    <h1>{{ tour.name }}</h1>
+
+    <span>Дата екскурсії: {{ tour.date }}</span><br>
+    {% if tour.exhibitions.all %}
+    <span>Виставки:</span>
+    <ul>
+        {% for exhibition in tour.exhibitions.all %}
+            <li>{{ exhibition.name }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <span>За записом? - {% if tour.admission %}Так{% else %}Ні{% endif %}</span><br>
+    <span>Ціна: {% if tour.price == 0 %}Безкоштовно{% else %}{{ tour.price }} ₴{% endif %}</span>
+{% endblock %}
